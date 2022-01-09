@@ -1,0 +1,66 @@
+.overlay {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.55);
+}
+
+.dialog {
+  max-width: 330px;
+  border-radius: 5px;
+  background-color: #fff;
+  animation: scaleIn 0.2s;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    padding: 5px 0 5px 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color: $primary-contrast-color;
+    justify-content: space-between;
+    background-color: $primary-color;
+  }
+
+  &__title {
+    font-size: 22px;
+    font-weight: bold;
+  }
+
+  &__content {
+    width: 330px;
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 15px 15px 10px;
+
+    .form-group:first-of-type {
+      margin-top: 0;
+    }
+  }
+
+  &__footer {
+    margin-top: 10px;
+    text-align: right;
+    padding: 0 15px 15px;
+
+    .btn ~ .btn {
+      margin-left: 15px;
+    }
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0.5;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

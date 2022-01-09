@@ -1,0 +1,48 @@
+button {
+  cursor: pointer;
+}
+
+h2 {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+label {
+  margin-left: 5px;
+  margin-bottom: 2px;
+  display: inline-block;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+  width: 100%;
+  height: 42px;
+  padding: 0 20px;
+  font-size: 18px;
+  background: none;
+  border-radius: 21px;
+  border: 1px solid $border-color;
+}
+
+::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  font-style: italic;
+  color: $placeholder-color;
+}
+::-moz-placeholder {
+  /* Firefox 19+ */
+  font-style: italic;
+  color: $placeholder-color;
+}
+:-ms-input-placeholder {
+  /* IE 10+ */
+  font-style: italic;
+  color: $placeholder-color;
+}
+:-moz-placeholder {
+  /* Firefox 18- */
+  color: #aaaaaa;
+  font-style: italic;
+}

@@ -1,0 +1,77 @@
+.income {
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 30px;
+  background-color: #f9f9f9;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+
+  input {
+    border: 0;
+    color: #333;
+    height: auto;
+    padding: 0;
+    font-size: 25px;
+    background: none;
+    font-weight: bold;
+    max-width: auto;
+    font-family: Roboto, sans-serif;
+  }
+
+  &__info {
+    max-width: 60%;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__actions > .btn ~ .btn {
+    margin-left: 20px;
+  }
+
+  &__totals {
+    display: flex;
+    margin-top: 5px;
+    padding-top: 5px;
+    align-items: center;
+    border-top: 1px solid #dddddd;
+    justify-content: space-between;
+  }
+
+  &__label {
+    color: #888888;
+    display: block;
+    font-size: 13px;
+    font-style: italic;
+  }
+
+  &__value {
+    font-size: 16px;
+    font-weight: bold;
+
+    &--danger {
+      color: $danger-color;
+    }
+
+    &--warning {
+      color: $warning-color;
+    }
+
+    &--success {
+      color: $secondary-color;
+    }
+  }
+
+  &__period {
+    color: #555555;
+    font-size: 18px;
+    font-style: italic;
+  }
+
+  &__income {
+    font-size: 25px;
+    font-weight: bold;
+  }
+}

@@ -1,0 +1,49 @@
+.menu {
+  min-width: 150px;
+  animation: scaleIn 0.2s;
+  background-color: #ffffff;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.6);
+
+  &--caret-top:before {
+    top: -10px;
+    border-bottom: 10px solid #fff;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+  }
+
+  &--caret-right:before {
+    right: 15px;
+  }
+
+  &:before {
+    width: 0;
+    height: 0;
+    content: "";
+    position: absolute;
+    filter: drop-shadow(0 1px 5px rgba(0, 0, 0, 0.6));
+  }
+
+  &__item {
+    border: 0;
+    z-index: 1;
+    width: 100%;
+    color: #333;
+    height: 42px;
+    display: block;
+    font-size: 16px;
+    text-align: left;
+    line-height: 42px;
+    position: relative;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-decoration: none;
+    background-color: #fff;
+    vertical-align: middle;
+  }
+}
+
+.user-menu {
+  top: 60px;
+  right: 10px;
+  position: absolute;
+}

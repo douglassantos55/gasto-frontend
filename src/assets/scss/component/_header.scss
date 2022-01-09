@@ -1,0 +1,21 @@
+header {
+  display: flex;
+  padding: 5px 15px;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+
+  &.login {
+    justify-content: center;
+  }
+
+  .logo {
+    font-size: 44px;
+    line-height: 100%;
+    font-family: "Lilita One", cursive;
+  }
+
+  .user__image {
+    box-shadow: none;
+  }
+}

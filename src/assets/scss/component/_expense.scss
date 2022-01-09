@@ -1,0 +1,45 @@
+.expense {
+  display: flex;
+  padding: 10px;
+  border-radius: 5px;
+  align-items: center;
+  transition: opacity 0.2s;
+  background-color: #f9f9f9;
+  justify-content: space-between;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+
+  &--removing {
+    opacity: 0.6;
+  }
+
+  &__info {
+    max-width: 60%;
+  }
+
+  &__date {
+    color: #777777;
+    font-style: italic;
+  }
+
+  &__value {
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 10px;
+  }
+
+  &__description {
+    font-size: 17px;
+    margin-bottom: 2px;
+  }
+
+  &__actions {
+    .icofont-check-alt {
+      font-size: 55px;
+      color: $secondary-color;
+    }
+
+    & > .btn ~ .btn {
+      margin-left: 20px;
+    }
+  }
+}

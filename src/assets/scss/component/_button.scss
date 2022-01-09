@@ -1,0 +1,87 @@
+.btn {
+  border: 0;
+  line-height: 0;
+  cursor: pointer;
+  min-width: 42px;
+  min-height: 42px;
+  transition: all 0.3s;
+  vertical-align: middle;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.65);
+
+  &[disabled] {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  &--primary {
+    color: $primary-contrast-color;
+    background-color: $primary-color;
+  }
+
+  &--secondary {
+    color: $secondary-contrast-color;
+    background-color: $secondary-color;
+  }
+
+  &--danger {
+    color: $danger-contrast-color;
+    background-color: $danger-color;
+  }
+
+  &--hollow {
+    background: none;
+    box-shadow: none;
+    text-transform: uppercase;
+  }
+
+  &--rounded {
+    padding: 0 20px;
+    font-size: 17px;
+    font-weight: bold;
+    border-radius: 21px;
+  }
+
+  &--circle {
+    padding: 0;
+    border-radius: 100%;
+  }
+
+  &--search {
+    width: 42px;
+    height: 42px;
+    font-size: 22px;
+    @extend .btn--hollow;
+  }
+
+  &--large {
+    width: 60px;
+    height: 60px;
+  }
+
+  &--small {
+    height: 35px;
+    font-size: 15px;
+    min-height: auto;
+  }
+
+  &--add {
+    left: 15px;
+    bottom: 120px;
+    position: fixed;
+  }
+
+  &--loan {
+    left: 15px;
+    bottom: 30px;
+    position: fixed;
+  }
+
+  &--pay {
+    width: 50px;
+    height: 50px;
+  }
+
+  &--cancel {
+    font-size: 15px;
+  }
+}

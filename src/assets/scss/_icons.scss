@@ -1,0 +1,114 @@
+@font-face {
+  font-family: "IcoFont";
+  font-weight: normal;
+  font-style: "Regular";
+  src: url("../fonts/icofont.woff2") format("woff2"),
+    url("../fonts/icofont.woff") format("woff");
+}
+
+[class^="icofont-"],
+[class*=" icofont-"] {
+  font-family: "IcoFont" !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  line-height: 1;
+  font-size: 20px;
+  /* Better Font Rendering =========== */
+  -webkit-font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+}
+
+.icofont-search-2:before {
+  content: "\ed12";
+}
+
+.icofont-ui-settings:before {
+  content: "\ec83";
+}
+
+.icofont-calendar:before {
+  content: "\eecd";
+}
+
+.icofont-ui-edit:before {
+  content: "\ec55";
+}
+
+.icofont-bin:before {
+  content: "\eebb";
+}
+
+.icofont-money {
+  font-size: 42px;
+  color: $secondary-color;
+
+  &:before {
+    content: "\ef9d";
+  }
+}
+
+.icofont-bill-alt {
+  font-size: 28px;
+  display: inline-block;
+  transform: rotateZ(-30deg);
+
+  &:before {
+    content: "\e964";
+  }
+}
+
+.icofont-check-alt {
+  font-size: 30px;
+
+  &:before {
+    content: "\eed6";
+  }
+}
+
+.icofont-arrow-left:before {
+  font-size: 32px;
+  content: "\ea5c";
+}
+
+.icofont-close-line {
+  font-size: 30px;
+  color: $primary-contrast-color;
+
+  &:before {
+    content: "\eee1";
+  }
+}
+
+.icofont-exchange {
+  font-size: 25px;
+
+  &:before {
+    content: "\ef18";
+  }
+}
+
+.icofont-plus:before {
+  content: "\efc2";
+}
+
+.icofont-lock:before {
+  content: "\ef7a";
+}
+
+.icofont-users:before {
+  content: "\ed0d";
+}
+
+.icofont-exit:before {
+  content: "\ef1d";
+}
+
+.icofont-ui-camera:before {
+  content: "\ec47";
+}
