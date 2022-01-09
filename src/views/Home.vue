@@ -1,4 +1,6 @@
 <template>
+  <app-header />
+
   <income />
 
   <tabs label="Tipos despesas">
@@ -15,12 +17,15 @@
   <app-button circle large primary class="btn--loan">
     <span class="icofont-exchange" />
   </app-button>
+
+  <router-view />
 </template>
 
 <script>
 import Tab from "@/components/Tab.vue";
 import Tabs from "@/components/Tabs.vue";
 import Income from "@/components/Income.vue";
+import AppHeader from "@/components/AppHeader.vue";
 import AppButton from "@/components/AppButton.vue";
 import ExpensesList from "@/components/ExpensesList.vue";
 
@@ -30,6 +35,7 @@ export default {
     Tab,
     Tabs,
     Income,
+    AppHeader,
     AppButton,
     ExpensesList,
   },
