@@ -48,7 +48,7 @@ instance.interceptors.response.use(
       }
     }
 
-    throw new Error(error.response.data);
+    throw error.response.data;
   }
 );
 

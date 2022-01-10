@@ -25,9 +25,15 @@
       Defina o valor para o periodo antes de cadastrar as despesas
     </h3>
 
-    <app-button circle large primary class="btn--add">
-      <span class="icofont-plus" />
-    </app-button>
+    <router-link
+      custom
+      v-slot="{ navigate, href }"
+      :to="{ name: 'ExpenseDialog' }"
+    >
+      <app-button circle large primary class="btn--add" @click="navigate(href)">
+        <span class="icofont-plus" />
+      </app-button>
+    </router-link>
 
     <app-button circle large primary class="btn--loan">
       <span class="icofont-exchange" />
@@ -74,6 +80,7 @@ export default {
   provide() {
     return {
       period: this.period,
+      addExpense: this.addExpense,
       removeExpense: this.removeExpense,
     };
   },
@@ -90,6 +97,9 @@ export default {
         this.expenses &&
         this.expenses.filter((expense) => expense.type === this.type)
       );
+    },
+    addExpense(expense) {
+      this.expenses.unshift(expense);
     },
     removeExpense(expense) {
       const index = this.expenses.indexOf(expense);

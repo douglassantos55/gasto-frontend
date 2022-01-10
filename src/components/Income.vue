@@ -24,7 +24,7 @@
         <router-link
           custom
           v-slot="{ navigate, href }"
-          :to="{ name: 'ChangePeriod' }"
+          :to="{ name: 'PeriodDialog' }"
         >
           <app-button circle primary @click="navigate(href)">
             <span class="icofont-calendar" />

@@ -8,7 +8,7 @@
       <p class="expense__description">{{ expense.description }}</p>
     </div>
 
-    <div class="expense__actions" v-if="expense.payment === null">
+    <div class="expense__actions" v-if="!expense.payment">
       <app-button primary circle>
         <span class="icofont-ui-edit" />
       </app-button>
@@ -18,7 +18,7 @@
       </app-button>
     </div>
 
-    <div class="payment" v-if="expense.payment !== null">
+    <div class="payment" v-if="expense.payment">
       <span class="icofont-money" />
       <span class="payment__text">Recebido em</span>
       <span class="payment__date">

@@ -32,9 +32,15 @@ const routes = [
       },
       {
         path: "period",
-        name: "ChangePeriod",
+        name: "PeriodDialog",
         component: () =>
-          import(/* webpackChunkName: "period" */ "../views/ChangePeriod.vue"),
+          import(/* webpackChunkName: "period" */ "../views/PeriodDialog.vue"),
+      },
+      {
+        path: "expense/:id?",
+        name: "ExpenseDialog",
+        component: () =>
+          import(/* webpackChunkName: "period" */ "../views/ExpenseDialog.vue"),
       },
     ],
   },
