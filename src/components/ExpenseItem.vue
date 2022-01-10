@@ -1,13 +1,12 @@
 <template>
   <div class="expense">
     <div class="expense__info">
-      <span class="expense__date">05/01/2022</span>
-      <span class="expense__value">R$ 60,00</span>
-
-      <p class="expense__description">Pizza</p>
+      <span class="expense__date">{{ expense.date }}</span>
+      <span class="expense__value">{{ expense.total }}</span>
+      <p class="expense__description">{{ expense.description }}</p>
     </div>
 
-    <div class="expense__actions">
+    <div class="expense__actions" v-if="expense.payment === null">
       <app-button primary circle>
         <span class="icofont-ui-edit" />
       </app-button>
@@ -17,13 +16,13 @@
       </app-button>
     </div>
 
-    <div class="payment">
+    <div class="payment" v-if="expense.payment !== null">
       <span class="icofont-money" />
       <span class="payment__text">Recebido em</span>
-      <span class="payment__date">05/01/2022</span>
+      <span class="payment__date">{{ expense.payment.date }}</span>
     </div>
 
-    <div class="expense__actions">
+    <div class="expense__actions" v-if="expense.type === 'pagamento'">
       <span class="icofont-check-alt" />
     </div>
   </div>
@@ -36,6 +35,12 @@ export default {
   name: "ExpenseItem",
   components: {
     AppButton,
+  },
+  props: {
+    expense: {
+      type: Object,
+      required: true,
+    },
   },
 };
 </script>

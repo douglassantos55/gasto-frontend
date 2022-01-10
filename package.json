@@ -12,7 +12,9 @@
     "axios": "^0.24.0",
     "core-js": "^3.6.5",
     "register-service-worker": "^1.7.1",
+    "v-money": "github:vuejs-tips/v-money",
     "vue": "^3.0.0",
+    "vue-currency-input": "^2.4.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
   },

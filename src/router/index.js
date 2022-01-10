@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import Home from "../views/Home.vue";
-import axios from "@/axios";
+import axios from "@/utils/axios";
 
 const routes = [
   {
@@ -29,6 +29,12 @@ const routes = [
         name: "Search",
         component: () =>
           import(/* webpackChunkName: "search" */ "../views/About.vue"),
+      },
+      {
+        path: "period",
+        name: "ChangePeriod",
+        component: () =>
+          import(/* webpackChunkName: "period" */ "../views/ChangePeriod.vue"),
       },
     ],
   },

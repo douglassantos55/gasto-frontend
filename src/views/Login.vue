@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import axios, { authenticate, saveTokens } from "@/axios";
+import axios, { authenticate, saveTokens } from "@/utils/axios";
 
 export default {
   name: "Login",

@@ -5,9 +5,11 @@
       btn: true,
       'btn--large': large,
       'btn--primary': primary,
+      'btn--secondary': secondary,
       'btn--circle': circle,
       'btn--hollow': hollow,
       'btn--danger': danger,
+      'btn--rounded': rounded,
     }"
   >
     <slot />
@@ -34,7 +36,15 @@ export default {
       type: Boolean,
       default: false,
     },
+    rounded: {
+      type: Boolean,
+      default: false,
+    },
     primary: {
+      type: Boolean,
+      default: false,
+    },
+    secondary: {
       type: Boolean,
       default: false,
     },
