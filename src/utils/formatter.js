@@ -9,6 +9,8 @@ class Formater {
       year: "numeric",
       month: "long",
     });
+
+    this.dateFormatter = new Intl.DateTimeFormat("pt-BR");
   }
 
   currency(value) {
@@ -17,6 +19,11 @@ class Formater {
 
   period({ month, year }) {
     return this.periodFormatter.format(new Date(year, month - 1));
+  }
+
+  date(dateString) {
+    const [year, month, day] = dateString.split("-");
+    return this.dateFormatter.format(new Date(year, month, day));
   }
 }
 

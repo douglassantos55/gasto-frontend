@@ -1,8 +1,10 @@
 <template>
   <div class="expense">
     <div class="expense__info">
-      <span class="expense__date">{{ expense.date }}</span>
-      <span class="expense__value">{{ expense.total }}</span>
+      <span class="expense__date">{{ formatter.date(expense.date) }}</span>
+      <span class="expense__value">
+        {{ formatter.currency(expense.total) }}
+      </span>
       <p class="expense__description">{{ expense.description }}</p>
     </div>
 
@@ -11,7 +13,7 @@
         <span class="icofont-ui-edit" />
       </app-button>
 
-      <app-button danger circle>
+      <app-button danger circle @click="remove" :disabled="loading">
         <span class="icofont-bin" />
       </app-button>
     </div>
@@ -19,7 +21,9 @@
     <div class="payment" v-if="expense.payment !== null">
       <span class="icofont-money" />
       <span class="payment__text">Recebido em</span>
-      <span class="payment__date">{{ expense.payment.date }}</span>
+      <span class="payment__date">
+        {{ formatter.date(expense.payment.date) }}
+      </span>
     </div>
 
     <div class="expense__actions" v-if="expense.type === 'pagamento'">
@@ -29,6 +33,8 @@
 </template>
 
 <script>
+import axios from "@/utils/axios";
+import formatter from "@/utils/formatter";
 import AppButton from "@/components/AppButton.vue";
 
 export default {
@@ -36,10 +42,28 @@ export default {
   components: {
     AppButton,
   },
+  inject: ["removeExpense"],
   props: {
     expense: {
       type: Object,
       required: true,
+    },
+  },
+  data() {
+    return {
+      formatter,
+      loading: false,
+    };
+  },
+  methods: {
+    async remove() {
+      try {
+        this.loading = true;
+        await axios.delete(`/expenses/${this.expense.id}`);
+        this.removeExpense(this.expense);
+      } finally {
+        this.loading = false;
+      }
     },
   },
 };

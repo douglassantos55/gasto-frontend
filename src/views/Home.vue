@@ -38,7 +38,6 @@
 </template>
 
 <script>
-import { reactive } from "vue";
 import axios from "@/utils/axios";
 import Tab from "@/components/Tab.vue";
 import Tabs from "@/components/Tabs.vue";
@@ -74,7 +73,8 @@ export default {
   },
   provide() {
     return {
-      period: reactive(this.period),
+      period: this.period,
+      removeExpense: this.removeExpense,
     };
   },
   watch: {
@@ -90,6 +90,10 @@ export default {
         this.expenses &&
         this.expenses.filter((expense) => expense.type === this.type)
       );
+    },
+    removeExpense(expense) {
+      const index = this.expenses.indexOf(expense);
+      this.expenses.splice(index, 1);
     },
     async fetch() {
       try {
