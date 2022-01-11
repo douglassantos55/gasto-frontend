@@ -18,7 +18,7 @@ const routes = [
         path: "search",
         name: "Search",
         component: () =>
-          import(/* webpackChunkName: "search" */ "../views/About.vue"),
+          import(/* webpackChunkName: "search" */ "../views/SearchDialog.vue"),
       },
       {
         path: "period",

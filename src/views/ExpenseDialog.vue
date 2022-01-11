@@ -55,7 +55,7 @@
       </template>
 
       <template v-slot:actions v-if="type === 'normal' || expense.friend_id">
-        <app-button primary rounded type="submit" :disable="loading">
+        <app-button primary rounded type="submit" :disabled="loading">
           Salvar
         </app-button>
       </template>
