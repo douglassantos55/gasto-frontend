@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="save">
+  <form @submit.prevent="submit(save)">
     <app-dialog :title="title">
       <template v-if="type === 'emprestimo' && !expense.friend_id">
         <p>Emprestimo para</p>
@@ -20,15 +20,12 @@
           </app-button>
         </div>
 
-        <div class="form-group">
+        <form-group :errors="errors.date">
           <label for="expense-date">Data</label>
           <input type="date" id="expense-date" v-model="expense.date" />
-          <p class="error" v-for="(error, idx) in errors.date" :key="idx">
-            {{ error }}
-          </p>
-        </div>
+        </form-group>
 
-        <div class="form-group">
+        <form-group :errors="errors.description">
           <label for="expense-description">Descricao</label>
           <input
             type="text"
@@ -36,22 +33,12 @@
             v-model="expense.description"
             ref="descInput"
           />
-          <p
-            class="error"
-            v-for="(error, idx) in errors.description"
-            :key="idx"
-          >
-            {{ error }}
-          </p>
-        </div>
+        </form-group>
 
-        <div class="form-group">
+        <form-group :errors="errors.total">
           <label for="expense-total">Valor</label>
           <money-input id="expense-total" v-model="expense.total" />
-          <p class="error" v-for="(error, idx) in errors.total" :key="idx">
-            {{ error }}
-          </p>
-        </div>
+        </form-group>
       </template>
 
       <template v-slot:actions v-if="type === 'normal' || expense.friend_id">
@@ -66,8 +53,11 @@
 <script>
 import store from "@/store";
 import axios from "@/utils/axios";
+import useForm from "@/composables/useForm";
+
 import User from "@/components/User.vue";
 import Loading from "@/components/Loading.vue";
+import FormGroup from "@/components/FormGroup.vue";
 import AppButton from "@/components/AppButton.vue";
 import AppDialog from "@/components/AppDialog.vue";
 import MoneyInput from "@/components/MoneyInput.vue";
@@ -90,20 +80,22 @@ export default {
       }),
     },
   },
+  setup() {
+    return { ...useForm() };
+  },
   components: {
     User,
     Loading,
+    FormGroup,
     AppDialog,
     AppButton,
     MoneyInput,
   },
   data() {
     return {
-      errors: {},
       friends: null,
-      loading: false,
-      selectedFriend: this.initial.friend,
       expense: { ...this.initial },
+      selectedFriend: this.initial.friend,
     };
   },
   async beforeRouteEnter(to) {
@@ -144,21 +136,14 @@ export default {
   },
   methods: {
     async save() {
-      try {
-        this.loading = true;
-
-        if (this.expense.id) {
-          await axios.put(`/expenses/${this.expense.id}`, this.expense);
-        } else {
-          await axios.post("/expenses", this.expense);
-        }
-
-        this.refresh();
-        this.loading = false;
-        this.$router.back();
-      } catch (err) {
-        this.errors = err;
+      if (this.expense.id) {
+        await axios.put(`/expenses/${this.expense.id}`, this.expense);
+      } else {
+        await axios.post("/expenses", this.expense);
       }
+
+      this.refresh();
+      this.$router.back();
     },
   },
   computed: {

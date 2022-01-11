@@ -1,5 +1,5 @@
 <template>
-  <app-header :user="user" />
+  <app-header />
 
   <main>
     <income :period="period" :debts="debts" :expenses="expenses" />
@@ -61,19 +61,13 @@
 
     <router-view />
   </main>
-
-  <div class="loader" v-if="loading">
-    <loading />
-  </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
 import axios from "@/utils/axios";
 import Tab from "@/components/Tab.vue";
 import Tabs from "@/components/Tabs.vue";
 import Income from "@/components/Income.vue";
-import Loading from "@/components/Loading.vue";
 import AppHeader from "@/components/AppHeader.vue";
 import AppButton from "@/components/AppButton.vue";
 import ExpensesList from "@/components/ExpensesList.vue";
@@ -85,27 +79,17 @@ export default {
     Tab,
     Tabs,
     Income,
-    Loading,
     AppHeader,
     AppButton,
     ExpensesList,
   },
-  props: {
-    user: {
-      type: Object,
-      required: true,
-    },
-  },
-  beforeRouteEnter(to) {
-    return axios
-      .get("/auth/user")
-      .then((user) => {
-        to.params.user = user;
-      })
-      .catch(() => ({ name: "Login" }));
-  },
-  beforeRouteUpdate(to, from) {
-    to.params = { ...to.params, user: from.params.user };
+  async beforeRouteEnter(_to, _from, next) {
+    try {
+      const user = await axios.get("/auth/user");
+      next((vm) => vm.$store.dispatch("setUser", user));
+    } catch (err) {
+      return { name: "Login" };
+    }
   },
   data() {
     const cur = new Date();
@@ -143,7 +127,6 @@ export default {
   },
   provide() {
     return {
-      user: this.user,
       period: this.period,
       refresh: this.fetch,
     };
@@ -187,21 +170,6 @@ export default {
       }
       return this.debts;
     },
-    ...mapState(["loading"]),
   },
 };
 </script>
-
-<style>
-.loader {
-  top: 0;
-  left: 0;
-  width: 100vw;
-  display: flex;
-  height: 100vh;
-  position: fixed;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.3);
-}
-</style>

@@ -1,4 +1,5 @@
 import axios from "axios";
+import swal from "sweetalert";
 
 const instance = axios.create({
   baseURL: "http://localhost:3000",
@@ -48,7 +49,17 @@ instance.interceptors.response.use(
       }
     }
 
-    throw error.response.data;
+    if (error.response.status === 400) {
+      return Promise.reject(error.response.data);
+    }
+
+    swal({
+      icon: "error",
+      title: "Ocorreu um erro",
+      text: "Nao foi possivel realizar a operacao. Por favor, tente novamente",
+    });
+
+    return Promise.reject();
   }
 );
 

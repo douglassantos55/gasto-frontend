@@ -27,6 +27,14 @@ const routes = [
           import(/* webpackChunkName: "period" */ "../views/PeriodDialog.vue"),
       },
       {
+        path: "change-password",
+        name: "PasswordDialog",
+        component: () =>
+          import(
+            /* webpackChunkName: "password" */ "../views/PasswordDialog.vue"
+          ),
+      },
+      {
         props: (route) => ({ ...route.params, type: route.query.type }),
         path: "expense/:id?",
         name: "ExpenseDialog",

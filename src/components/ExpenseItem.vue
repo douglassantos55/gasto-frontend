@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import axios from "@/utils/axios";
 import formatter from "@/utils/formatter";
 import User from "@/components/User.vue";
@@ -73,7 +74,7 @@ export default {
     User,
     AppButton,
   },
-  inject: ["refresh", "user"],
+  inject: ["refresh"],
   props: {
     expense: {
       type: Object,
@@ -118,6 +119,7 @@ export default {
     isDebt() {
       return this.expense.friend_id == this.user.id;
     },
+    ...mapState(["user"]),
   },
 };
 </script>
