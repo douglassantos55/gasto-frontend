@@ -37,14 +37,18 @@
       </template>
 
       <template v-if="isDebt">
-        <app-button danger circle>
+        <app-button primary circle @click="pay" :disabled="loading">
           <span class="icofont-bill-alt" />
         </app-button>
       </template>
 
-      <template v-if="expense.type == 'pagamento'">
+      <div class="payment" v-if="expense.type == 'pagamento'">
         <span class="icofont-check-alt" />
-      </template>
+        <span class="payment__text">Data do emprestimo</span>
+        <span class="payment__date">
+          {{ formatter.date(expense.source.date) }}
+        </span>
+      </div>
     </div>
 
     <div class="payment" v-if="expense.payment">
@@ -92,11 +96,23 @@ export default {
         this.loading = false;
       }
     },
+    async pay() {
+      try {
+        this.loading = true;
+        await axios.post(`/expenses/${this.expense.id}/payment`);
+        this.refresh();
+      } finally {
+        this.loading = false;
+      }
+    },
   },
   computed: {
     canEdit() {
       return (
-        this.expense.type == "normal" || (!this.isDebt && !this.expense.payment)
+        this.expense.type == "normal" ||
+        (!this.isDebt &&
+          !this.expense.payment &&
+          this.expense.type !== "pagamento")
       );
     },
     isDebt() {

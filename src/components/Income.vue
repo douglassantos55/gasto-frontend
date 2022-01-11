@@ -105,9 +105,11 @@ export default {
       if (!this.expenses) {
         return null;
       }
-      return this.expenses.reduce((total, expense) => {
-        return total + expense.total;
-      }, 0);
+      return this.expenses
+        .filter((expense) => !expense.payment)
+        .reduce((total, expense) => {
+          return total + expense.total;
+        }, 0);
     },
     totalLoans() {
       if (!this.debts) {

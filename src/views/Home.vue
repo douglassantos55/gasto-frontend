@@ -125,12 +125,10 @@ export default {
   methods: {
     async fetch() {
       try {
+        this.debts = await axios.get("/expenses/debts");
+
         this.expenses = await axios.get(
           `/expenses?month=${this.period.month}&year=${this.period.year}`
-        );
-
-        this.debts = await axios.get(
-          `/expenses/debts?month=${this.period.month}&year=${this.period.year}`
         );
       } catch (err) {
         this.debts = null;

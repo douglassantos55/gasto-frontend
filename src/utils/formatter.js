@@ -23,7 +23,7 @@ class Formater {
 
   date(dateString) {
     const [year, month, day] = dateString.split("-");
-    return this.dateFormatter.format(new Date(year, month, day));
+    return this.dateFormatter.format(new Date(year, month - 1, day));
   }
 }
 

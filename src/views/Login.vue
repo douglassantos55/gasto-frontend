@@ -22,7 +22,10 @@ export default {
     };
   },
   beforeRouteEnter() {
-    return axios.head("/auth/user").then(() => ({ name: "Home" }));
+    return axios
+      .head("/auth/user")
+      .then(() => ({ name: "Home" }))
+      .catch(() => true);
   },
   methods: {
     async login() {

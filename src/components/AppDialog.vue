@@ -14,7 +14,7 @@
       </div>
 
       <div class="dialog__footer">
-        <app-button rounded @click="close">{{ cancel }}</app-button>
+        <app-button hollow rounded @click="close">{{ cancel }}</app-button>
         <slot name="actions" />
       </div>
     </div>

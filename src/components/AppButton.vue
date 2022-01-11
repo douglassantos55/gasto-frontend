@@ -3,6 +3,7 @@
     :type="type"
     :class="{
       btn: true,
+      'btn--small': small,
       'btn--large': large,
       'btn--primary': primary,
       'btn--secondary': secondary,
@@ -33,6 +34,10 @@ export default {
       default: false,
     },
     large: {
+      type: Boolean,
+      default: false,
+    },
+    small: {
       type: Boolean,
       default: false,
     },
