@@ -9,9 +9,15 @@
     </div>
 
     <div class="expense__actions" v-if="!expense.payment">
-      <app-button primary circle>
-        <span class="icofont-ui-edit" />
-      </app-button>
+      <router-link
+        custom
+        v-slot="{ navigate, href }"
+        :to="{ name: 'ExpenseDialog', params: { id: expense.id } }"
+      >
+        <app-button primary circle @click="navigate(href)">
+          <span class="icofont-ui-edit" />
+        </app-button>
+      </router-link>
 
       <app-button danger circle @click="remove" :disabled="loading">
         <span class="icofont-bin" />
@@ -42,7 +48,7 @@ export default {
   components: {
     AppButton,
   },
-  inject: ["removeExpense"],
+  inject: ["refresh"],
   props: {
     expense: {
       type: Object,
@@ -60,7 +66,7 @@ export default {
       try {
         this.loading = true;
         await axios.delete(`/expenses/${this.expense.id}`);
-        this.removeExpense(this.expense);
+        this.refresh();
       } finally {
         this.loading = false;
       }

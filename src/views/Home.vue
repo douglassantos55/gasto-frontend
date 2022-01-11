@@ -80,8 +80,7 @@ export default {
   provide() {
     return {
       period: this.period,
-      addExpense: this.addExpense,
-      removeExpense: this.removeExpense,
+      refresh: this.fetch,
     };
   },
   watch: {
@@ -97,13 +96,6 @@ export default {
         this.expenses &&
         this.expenses.filter((expense) => expense.type === this.type)
       );
-    },
-    addExpense(expense) {
-      this.expenses.unshift(expense);
-    },
-    removeExpense(expense) {
-      const index = this.expenses.indexOf(expense);
-      this.expenses.splice(index, 1);
     },
     async fetch() {
       try {

@@ -9,7 +9,7 @@ export default {
   name: "MoneyInput",
   props: {
     modelValue: {
-      type: Number,
+      type: [Number, null],
       required: true,
     },
     options: {

@@ -37,10 +37,13 @@ const routes = [
           import(/* webpackChunkName: "period" */ "../views/PeriodDialog.vue"),
       },
       {
+        props: true,
         path: "expense/:id?",
         name: "ExpenseDialog",
         component: () =>
-          import(/* webpackChunkName: "period" */ "../views/ExpenseDialog.vue"),
+          import(
+            /* webpackChunkName: "expense" */ "../views/ExpenseDialog.vue"
+          ),
       },
     ],
   },
