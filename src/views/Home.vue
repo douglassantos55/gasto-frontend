@@ -68,6 +68,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import axios from "@/utils/axios";
 import Tab from "@/components/Tab.vue";
 import Tabs from "@/components/Tabs.vue";
@@ -114,7 +115,6 @@ export default {
         month: cur.getMonth() + 1,
         year: cur.getFullYear(),
       },
-      loading: true,
       type: "normal",
       expenses: null,
       debts: null,
@@ -143,18 +143,14 @@ export default {
   },
   provide() {
     return {
-      loading: this.loading,
       user: this.user,
       period: this.period,
       refresh: this.fetch,
     };
   },
   watch: {
-    type: "fetch",
-    period: {
-      handler: "fetch",
-      deep: true,
-    },
+    "period.month": "fetch",
+    "period.year": "fetch",
   },
   methods: {
     toggleButtons() {
@@ -170,7 +166,7 @@ export default {
     },
     async fetch() {
       try {
-        this.loading = true;
+        this.$store.dispatch("loading");
         this.debts = await axios.get("/expenses/debts");
 
         this.expenses = await axios.get(
@@ -180,7 +176,7 @@ export default {
         this.debts = null;
         this.expenses = null;
       } finally {
-        this.loading = false;
+        this.$store.dispatch("stopLoading");
       }
     },
   },
@@ -191,6 +187,7 @@ export default {
       }
       return this.debts;
     },
+    ...mapState(["loading"]),
   },
 };
 </script>

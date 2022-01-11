@@ -64,6 +64,7 @@
 </template>
 
 <script>
+import store from "@/store";
 import axios from "@/utils/axios";
 import User from "@/components/User.vue";
 import Loading from "@/components/Loading.vue";
@@ -107,6 +108,7 @@ export default {
   },
   async beforeRouteEnter(to) {
     if (to.params.id) {
+      store.dispatch("loading");
       const data = await axios.get(`/expenses/${to.params.id}`);
 
       to.params.initial = {};
@@ -117,6 +119,8 @@ export default {
           to.params.initial[key] = value;
         }
       });
+
+      store.dispatch("stopLoading");
     }
   },
   async created() {

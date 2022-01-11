@@ -92,7 +92,7 @@ export default {
         this.loading = true;
         await axios.delete(`/expenses/${this.expense.id}`);
         this.refresh();
-      } finally {
+      } catch (err) {
         this.loading = false;
       }
     },
@@ -101,7 +101,7 @@ export default {
         this.loading = true;
         await axios.post(`/expenses/${this.expense.id}/payment`);
         this.refresh();
-      } finally {
+      } catch (err) {
         this.loading = false;
       }
     },
