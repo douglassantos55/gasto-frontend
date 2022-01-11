@@ -6,22 +6,45 @@
         {{ formatter.currency(expense.total) }}
       </span>
       <p class="expense__description">{{ expense.description }}</p>
+
+      <user
+        :size="25"
+        :user="expense.friend"
+        v-if="!isDebt && expense.friend"
+      />
+      <user :size="25" :user="expense.user" v-if="isDebt && expense.user" />
     </div>
 
-    <div class="expense__actions" v-if="!expense.payment">
-      <router-link
-        custom
-        v-slot="{ navigate, href }"
-        :to="{ name: 'ExpenseDialog', params: { id: expense.id } }"
-      >
-        <app-button primary circle @click="navigate(href)">
-          <span class="icofont-ui-edit" />
-        </app-button>
-      </router-link>
+    <div class="expense__actions">
+      <template v-if="canEdit">
+        <router-link
+          custom
+          v-slot="{ navigate, href }"
+          :to="{
+            name: 'ExpenseDialog',
+            params: { id: expense.id },
+            query: { type: expense.type },
+          }"
+        >
+          <app-button primary circle @click="navigate(href)">
+            <span class="icofont-ui-edit" />
+          </app-button>
+        </router-link>
 
-      <app-button danger circle @click="remove" :disabled="loading">
-        <span class="icofont-bin" />
-      </app-button>
+        <app-button danger circle @click="remove" :disabled="loading">
+          <span class="icofont-bin" />
+        </app-button>
+      </template>
+
+      <template v-if="isDebt">
+        <app-button danger circle>
+          <span class="icofont-bill-alt" />
+        </app-button>
+      </template>
+
+      <template v-if="expense.type == 'pagamento'">
+        <span class="icofont-check-alt" />
+      </template>
     </div>
 
     <div class="payment" v-if="expense.payment">
@@ -31,24 +54,22 @@
         {{ formatter.date(expense.payment.date) }}
       </span>
     </div>
-
-    <div class="expense__actions" v-if="expense.type === 'pagamento'">
-      <span class="icofont-check-alt" />
-    </div>
   </div>
 </template>
 
 <script>
 import axios from "@/utils/axios";
 import formatter from "@/utils/formatter";
+import User from "@/components/User.vue";
 import AppButton from "@/components/AppButton.vue";
 
 export default {
   name: "ExpenseItem",
   components: {
+    User,
     AppButton,
   },
-  inject: ["refresh"],
+  inject: ["refresh", "user"],
   props: {
     expense: {
       type: Object,
@@ -70,6 +91,16 @@ export default {
       } finally {
         this.loading = false;
       }
+    },
+  },
+  computed: {
+    canEdit() {
+      return (
+        this.expense.type == "normal" || (!this.isDebt && !this.expense.payment)
+      );
+    },
+    isDebt() {
+      return this.expense.friend_id == this.user.id;
     },
   },
 };

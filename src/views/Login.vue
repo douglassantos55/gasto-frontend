@@ -21,6 +21,9 @@ export default {
       },
     };
   },
+  beforeRouteEnter() {
+    return axios.head("/auth/user").then(() => ({ name: "Home" }));
+  },
   methods: {
     async login() {
       try {

@@ -1,8 +1,8 @@
 <template>
-  <app-header />
+  <app-header :user="user" />
 
   <main>
-    <income :period="period" :expenses="expenses" />
+    <income :period="period" :debts="debts" :expenses="expenses" />
 
     <template v-if="period.total !== null">
       <tabs label="Tipos despesas">
@@ -18,7 +18,7 @@
         />
       </tabs>
 
-      <expenses-list :expenses="filter()" />
+      <expenses-list :expenses="items" />
     </template>
 
     <h3 class="text-center" v-else>
@@ -35,9 +35,21 @@
       </app-button>
     </router-link>
 
-    <app-button circle large primary class="btn--loan">
-      <span class="icofont-exchange" />
-    </app-button>
+    <router-link
+      custom
+      v-slot="{ navigate, href }"
+      :to="{ name: 'ExpenseDialog', query: { type: 'emprestimo' } }"
+    >
+      <app-button
+        circle
+        large
+        primary
+        class="btn--loan"
+        @click="navigate(href)"
+      >
+        <span class="icofont-exchange" />
+      </app-button>
+    </router-link>
 
     <router-view />
   </main>
@@ -54,6 +66,7 @@ import ExpensesList from "@/components/ExpensesList.vue";
 
 export default {
   name: "Home",
+  inheritAttrs: false,
   components: {
     Tab,
     Tabs,
@@ -61,6 +74,23 @@ export default {
     AppHeader,
     AppButton,
     ExpensesList,
+  },
+  props: {
+    user: {
+      type: Object,
+      required: true,
+    },
+  },
+  beforeRouteEnter(to) {
+    return axios
+      .get("/auth/user")
+      .then((user) => {
+        to.params.user = user;
+      })
+      .catch(() => ({ name: "Login" }));
+  },
+  beforeRouteUpdate(to, from) {
+    to.params = { ...to.params, user: from.params.user };
   },
   data() {
     const cur = new Date();
@@ -72,6 +102,7 @@ export default {
       },
       type: "normal",
       expenses: null,
+      debts: null,
     };
   },
   created() {
@@ -79,6 +110,7 @@ export default {
   },
   provide() {
     return {
+      user: this.user,
       period: this.period,
       refresh: this.fetch,
     };
@@ -91,20 +123,27 @@ export default {
     },
   },
   methods: {
-    filter() {
-      return (
-        this.expenses &&
-        this.expenses.filter((expense) => expense.type === this.type)
-      );
-    },
     async fetch() {
       try {
         this.expenses = await axios.get(
           `/expenses?month=${this.period.month}&year=${this.period.year}`
         );
+
+        this.debts = await axios.get(
+          `/expenses/debts?month=${this.period.month}&year=${this.period.year}`
+        );
       } catch (err) {
+        this.debts = null;
         this.expenses = null;
       }
+    },
+  },
+  computed: {
+    items() {
+      if (this.type === "normal") {
+        return this.expenses;
+      }
+      return this.debts;
     },
   },
 };

@@ -27,5 +27,11 @@ export default {
   components: {
     AppButton,
   },
+  props: {
+    user: {
+      type: Object,
+      required: true,
+    },
+  },
 };
 </script>

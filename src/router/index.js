@@ -1,28 +1,18 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import Home from "../views/Home.vue";
-import axios from "@/utils/axios";
 
 const routes = [
   {
     path: "/login",
     name: "Login",
-    beforeEnter: () =>
-      axios
-        .head("/friends")
-        .then(() => ({ name: "Home" }))
-        .catch(() => true),
     component: () =>
       import(/* webpackChunkName: "login" */ "../views/Login.vue"),
   },
   {
+    props: true,
     path: "/",
     name: "Home",
     component: Home,
-    beforeEnter: () =>
-      axios
-        .head("/friends")
-        .then(() => true)
-        .catch(() => ({ name: "Login" })),
     children: [
       {
         path: "search",
@@ -37,7 +27,7 @@ const routes = [
           import(/* webpackChunkName: "period" */ "../views/PeriodDialog.vue"),
       },
       {
-        props: true,
+        props: (route) => ({ ...route.params, type: route.query.type }),
         path: "expense/:id?",
         name: "ExpenseDialog",
         component: () =>

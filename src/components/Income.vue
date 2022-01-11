@@ -76,6 +76,10 @@ export default {
       type: Array,
       required: false,
     },
+    debts: {
+      type: Array,
+      required: false,
+    },
   },
   data() {
     return {
@@ -102,21 +106,15 @@ export default {
         return null;
       }
       return this.expenses.reduce((total, expense) => {
-        if (expense.type === "normal") {
-          return total + expense.total;
-        }
-        return total;
+        return total + expense.total;
       }, 0);
     },
     totalLoans() {
-      if (!this.expenses) {
+      if (!this.debts) {
         return null;
       }
-      return this.expenses.reduce((total, expense) => {
-        if (expense.type === "emprestimo") {
-          return total + expense.total;
-        }
-        return total;
+      return this.debts.reduce((total, debt) => {
+        return total + debt.total;
       }, 0);
     },
     balance() {

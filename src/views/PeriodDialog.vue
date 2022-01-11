@@ -1,13 +1,15 @@
 <template>
   <app-dialog title="Alterar periodo" cancel="Ok">
     <div class="form-group">
-      <select v-model="period.month">
+      <label for="period-month">Mes</label>
+      <select id="period-month" v-model="period.month">
         <option v-for="i in 12" :key="i" :value="i">{{ months[i] }}</option>
       </select>
     </div>
 
     <div class="form-group">
-      <select v-model="period.year">
+      <label for="period-year">Ano</label>
+      <select id="period-year" v-model="period.year">
         <option v-for="i in 5" :key="i" :value="year - (i - 1)">
           {{ year - (i - 1) }}
         </option>

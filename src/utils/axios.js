@@ -25,7 +25,7 @@ instance.interceptors.response.use(
   async function (error) {
     const request = error.response.config;
 
-    if (!request.url.includes("auth") && error.response.status === 403) {
+    if (error.response.status === 403) {
       const refreshToken = getToken("refresh");
 
       if (!refreshToken) {
