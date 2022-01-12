@@ -21,15 +21,9 @@
           />
         </app-button>
 
-        <router-link
-          custom
-          v-slot="{ navigate, href }"
-          :to="{ name: 'PeriodDialog' }"
-        >
-          <app-button circle primary @click="navigate(href)">
-            <span class="icofont-calendar" />
-          </app-button>
-        </router-link>
+        <link-button :to="{ name: 'PeriodDialog' }" circle primary>
+          <span class="icofont-calendar" />
+        </link-button>
       </div>
     </div>
 
@@ -62,6 +56,7 @@
 import axios from "@/utils/axios";
 import formatter from "@/utils/formatter";
 import AppButton from "@/components/AppButton.vue";
+import LinkButton from "@/components/LinkButton.vue";
 import MoneyInput from "@/components/MoneyInput.vue";
 
 export default {
@@ -69,6 +64,7 @@ export default {
   components: {
     MoneyInput,
     AppButton,
+    LinkButton,
   },
   inject: ["period"],
   props: {

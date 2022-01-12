@@ -20,15 +20,9 @@
     <p v-else>Voce nao possui nenhum amigo</p>
 
     <template v-slot:actions>
-      <router-link
-        :to="{ name: 'FriendDialog' }"
-        custom
-        v-slot="{ navigate, href }"
-      >
-        <app-button rounded primary @click="navigate(href)"
-          >Adicionar</app-button
-        >
-      </router-link>
+      <link-button :to="{ name: 'FriendDialog' }" rounded primary>
+        Adicionar
+      </link-button>
     </template>
   </app-dialog>
 </template>
@@ -38,6 +32,7 @@ import axios from "@/utils/axios";
 import User from "@/components/User.vue";
 import Loading from "@/components/Loading.vue";
 import AppButton from "@/components/AppButton.vue";
+import LinkButton from "@/components/LinkButton.vue";
 import AppDialog from "@/components/AppDialog.vue";
 
 export default {
@@ -47,6 +42,7 @@ export default {
     Loading,
     AppButton,
     AppDialog,
+    LinkButton,
   },
   data() {
     return {

@@ -1,10 +1,8 @@
 <template>
   <header>
-    <router-link custom v-slot="{ navigate, href }" :to="{ name: 'Search' }">
-      <app-button hollow circle @click="navigate(href)">
-        <span class="icofont-search-2" />
-      </app-button>
-    </router-link>
+    <link-button hollow circle :to="{ name: 'Search' }">
+      <span class="icofont-search-2" />
+    </link-button>
 
     <span className="logo"> Ga<i className="color-secondary">$</i>to </span>
 
@@ -21,35 +19,23 @@
       class="menu user-menu menu--caret-top menu--caret-right"
       v-if="menuVisible"
     >
-      <router-link
-        custom
-        v-slot="{ navigate, href }"
+      <link-button
+        type="button"
+        class="menu__item"
+        role="menuitem"
         :to="{ name: 'PasswordDialog' }"
       >
-        <button
-          type="button"
-          class="menu__item"
-          role="menuitem"
-          @click="navigate(href)"
-        >
-          <span class="icofont-lock" /> Alterar senha
-        </button>
-      </router-link>
+        <span class="icofont-lock" /> Alterar senha
+      </link-button>
 
-      <router-link
-        custom
-        v-slot="{ navigate, href }"
+      <link-button
+        type="button"
+        class="menu__item"
+        role="menuitem"
         :to="{ name: 'FriendsDialog' }"
       >
-        <button
-          type="button"
-          class="menu__item"
-          role="menuitem"
-          @click="navigate(href)"
-        >
-          <span class="icofont-users" /> Amigos
-        </button>
-      </router-link>
+        <span class="icofont-users" /> Amigos
+      </link-button>
     </div>
   </header>
 </template>
@@ -57,11 +43,13 @@
 <script>
 import { mapState } from "vuex";
 import AppButton from "@/components/AppButton.vue";
+import LinkButton from "@/components/LinkButton.vue";
 
 export default {
   name: "AppHeader",
   components: {
     AppButton,
+    LinkButton,
   },
   data() {
     return {

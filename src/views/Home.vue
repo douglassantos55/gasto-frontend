@@ -25,39 +25,27 @@
       Defina o valor para o periodo antes de cadastrar as despesas
     </h3>
 
-    <router-link
-      custom
-      v-slot="{ navigate, href }"
+    <link-button
+      circle
+      large
+      primary
       :to="{ name: 'ExpenseDialog' }"
+      class="btn--add"
+      :class="{ hidden: hideButtons }"
     >
-      <app-button
-        circle
-        large
-        primary
-        class="btn--add"
-        :class="{ hidden: hideButtons }"
-        @click="navigate(href)"
-      >
-        <span class="icofont-plus" />
-      </app-button>
-    </router-link>
+      <span class="icofont-plus" />
+    </link-button>
 
-    <router-link
-      custom
-      v-slot="{ navigate, href }"
+    <link-button
+      circle
+      large
+      primary
+      class="btn--loan"
+      :class="{ hidden: hideButtons }"
       :to="{ name: 'ExpenseDialog', query: { type: 'emprestimo' } }"
     >
-      <app-button
-        circle
-        large
-        primary
-        class="btn--loan"
-        :class="{ hidden: hideButtons }"
-        @click="navigate(href)"
-      >
-        <span class="icofont-exchange" />
-      </app-button>
-    </router-link>
+      <span class="icofont-exchange" />
+    </link-button>
 
     <router-view />
   </main>
@@ -69,7 +57,7 @@ import Tab from "@/components/Tab.vue";
 import Tabs from "@/components/Tabs.vue";
 import Income from "@/components/Income.vue";
 import AppHeader from "@/components/AppHeader.vue";
-import AppButton from "@/components/AppButton.vue";
+import LinkButton from "@/components/LinkButton.vue";
 import ExpensesList from "@/components/ExpensesList.vue";
 
 export default {
@@ -80,7 +68,7 @@ export default {
     Tabs,
     Income,
     AppHeader,
-    AppButton,
+    LinkButton,
     ExpensesList,
   },
   async beforeRouteEnter(_to, _from, next) {

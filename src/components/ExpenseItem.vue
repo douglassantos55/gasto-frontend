@@ -17,19 +17,17 @@
 
     <div class="expense__actions">
       <template v-if="canEdit">
-        <router-link
-          custom
-          v-slot="{ navigate, href }"
+        <link-button
+          primary
+          circle
           :to="{
             name: 'ExpenseDialog',
             params: { id: expense.id },
             query: { type: expense.type },
           }"
         >
-          <app-button primary circle @click="navigate(href)">
-            <span class="icofont-ui-edit" />
-          </app-button>
-        </router-link>
+          <span class="icofont-ui-edit" />
+        </link-button>
 
         <app-button danger circle @click="remove" :disabled="loading">
           <span class="icofont-bin" />
@@ -67,12 +65,14 @@ import axios from "@/utils/axios";
 import formatter from "@/utils/formatter";
 import User from "@/components/User.vue";
 import AppButton from "@/components/AppButton.vue";
+import LinkButton from "@/components/LinkButton.vue";
 
 export default {
   name: "ExpenseItem",
   components: {
     User,
     AppButton,
+    LinkButton,
   },
   inject: ["refresh"],
   props: {
