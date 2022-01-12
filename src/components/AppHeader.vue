@@ -39,9 +39,14 @@
       <router-link
         custom
         v-slot="{ navigate, href }"
-        :to="{ name: 'PasswordDialog' }"
+        :to="{ name: 'FriendsDialog' }"
       >
-        <button type="button" class="menu__item" role="menuitem">
+        <button
+          type="button"
+          class="menu__item"
+          role="menuitem"
+          @click="navigate(href)"
+        >
           <span class="icofont-users" /> Amigos
         </button>
       </router-link>

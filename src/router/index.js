@@ -35,6 +35,22 @@ const routes = [
           ),
       },
       {
+        path: "friends",
+        name: "FriendsDialog",
+        component: () =>
+          import(
+            /* webpackChunkName: "friends" */ "../views/FriendsDialog.vue"
+          ),
+      },
+      {
+        path: "add-friend",
+        name: "FriendDialog",
+        component: () =>
+          import(
+            /* webpackChunkName: "add-friend" */ "../views/FriendDialog.vue"
+          ),
+      },
+      {
         props: (route) => ({ ...route.params, type: route.query.type }),
         path: "expense/:id?",
         name: "ExpenseDialog",

@@ -6,9 +6,16 @@
 
         <loading v-if="!friends" />
 
-        <div class="friend" v-for="friend in friends" :key="friend.id" v-else>
+        <div
+          class="friend"
+          v-for="friend in friends"
+          :key="friend.id"
+          v-else-if="friends.length > 0"
+        >
           <user :user="friend" @click="selectedFriend = friend" />
         </div>
+
+        <p v-else>Voce nao possui nenhum amigo</p>
       </template>
 
       <template v-if="type === 'normal' || expense.friend_id">
