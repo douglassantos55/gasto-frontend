@@ -24,6 +24,16 @@ instance.interceptors.response.use(
     return response.data;
   },
   async function (error) {
+    if (!error.response || error.response.status === 500) {
+      swal({
+        icon: "error",
+        title: "Ocorreu um erro inesperado",
+        text: "Nao foi possivel realizar a operacao. Por favor, tente novamente",
+      });
+
+      return Promise.reject();
+    }
+
     const request = error.response.config;
 
     if (error.response.status === 403) {
@@ -51,16 +61,6 @@ instance.interceptors.response.use(
 
     if (error.response.status === 400) {
       return Promise.reject(error.response.data);
-    }
-
-    if (error.response.status == 500) {
-      swal({
-        icon: "error",
-        title: "Ocorreu um erro",
-        text: "Nao foi possivel realizar a operacao. Por favor, tente novamente",
-      });
-
-      return Promise.reject();
     }
   }
 );

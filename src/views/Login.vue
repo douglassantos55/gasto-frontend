@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import sway from "sweetalert";
 import axios, { authenticate, saveTokens } from "@/utils/axios";
 
 export default {
@@ -40,7 +41,13 @@ export default {
         authenticate();
         this.$router.push({ name: "Home" });
       } catch (err) {
-        alert(err);
+        if (err) {
+          sway({
+            icon: "error",
+            title: "Erro de autenticacao",
+            text: "Usuario ou senha invalidos",
+          });
+        }
       }
     },
   },
