@@ -21,11 +21,13 @@ export default {
       },
     };
   },
-  beforeRouteEnter() {
-    return axios
-      .head("/auth/user")
-      .then(() => ({ name: "Home" }))
-      .catch(() => true);
+  async beforeRouteEnter(_to, _from, next) {
+    try {
+      await axios.head("/auth/user");
+      next({ name: "Home" });
+    } catch (err) {
+      next((vm) => vm.$store.dispatch("stopLoading"));
+    }
   },
   methods: {
     async login() {

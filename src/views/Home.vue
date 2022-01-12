@@ -76,7 +76,7 @@ export default {
       const user = await axios.get("/auth/user");
       next((vm) => vm.$store.dispatch("setUser", user));
     } catch (err) {
-      return { name: "Login" };
+      next({ name: "Login" });
     }
   },
   data() {
