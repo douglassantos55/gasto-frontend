@@ -106,19 +106,21 @@ export default {
     };
   },
   async beforeRouteEnter(to) {
-    if (to.params.id) {
-      store.dispatch("loading");
-      const data = await axios.get(`/expenses/${to.params.id}`);
+    try {
+      if (to.params.id) {
+        store.dispatch("loading");
+        const data = await axios.get(`/expenses/${to.params.id}`);
 
-      to.params.initial = {};
-      Object.keys(data).forEach((key) => {
-        const value = data[key];
+        to.params.initial = {};
+        Object.keys(data).forEach((key) => {
+          const value = data[key];
 
-        if (value) {
-          to.params.initial[key] = value;
-        }
-      });
-
+          if (value) {
+            to.params.initial[key] = value;
+          }
+        });
+      }
+    } finally {
       store.dispatch("stopLoading");
     }
   },

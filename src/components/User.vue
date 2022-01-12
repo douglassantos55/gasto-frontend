@@ -1,18 +1,18 @@
 <template>
   <div class="user">
-    <img
-      :width="size"
-      :height="size"
-      class="user__image"
-      src="http://placeimg.com/40/40/people"
-    />
+    <user-picture :picture="user.picture" :size="size" />
     <span class="user__name">{{ user.name }}</span>
   </div>
 </template>
 
 <script>
+import UserPicture from "@/components/UserPicture.vue";
+
 export default {
   name: "User",
+  components: {
+    UserPicture,
+  },
   props: {
     user: {
       type: Object,

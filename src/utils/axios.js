@@ -2,7 +2,7 @@ import axios from "axios";
 import swal from "sweetalert";
 
 const instance = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: process.env.VUE_APP_API_URL,
 });
 
 function getToken(type) {

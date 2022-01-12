@@ -1,0 +1,18 @@
+.sway-title {
+  color: #333;
+  font-weight: bold;
+}
+
+.swal-text {
+  color: #333;
+  text-align: center;
+}
+
+.swal-button {
+  @extend .btn;
+  @extend .btn--rounded;
+
+  &--confirm {
+      @extend .btn--primary;
+  }
+}
