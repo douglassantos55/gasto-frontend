@@ -1,7 +1,11 @@
 <template>
   <header>
-    <link-button hollow circle :to="{ name: 'Search' }">
+    <link-button hollow circle :to="{ name: 'Search' }" v-if="!searching">
       <span class="icofont-search-2" />
+    </link-button>
+
+    <link-button hollow circle :to="{ name: 'Home' }" v-else>
+      <span class="icofont-arrow-left" />
     </link-button>
 
     <span className="logo"> Ga<i className="color-secondary">$</i>to </span>
@@ -70,6 +74,9 @@ export default {
     UserPicture,
   },
   computed: {
+    searching() {
+      return !!this.$route.query.term;
+    },
     ...mapState(["user"]),
   },
   setup() {

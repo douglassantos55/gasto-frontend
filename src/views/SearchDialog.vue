@@ -28,6 +28,9 @@ export default {
       term: "",
     };
   },
+  mounted() {
+    this.$refs.input.focus();
+  },
   methods: {
     search() {
       this.$router.push({ name: "Home", query: { term: this.term } });

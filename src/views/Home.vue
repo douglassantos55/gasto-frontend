@@ -2,9 +2,11 @@
   <app-header />
 
   <main>
-    <income :period="period" :debts="debts" :expenses="expenses" />
+    <search-filter v-if="searching" />
 
-    <template v-if="period.total !== null">
+    <income :period="period" :debts="debts" :expenses="expenses" v-else />
+
+    <template v-if="period.total !== null || searching">
       <tabs label="Tipos despesas">
         <tab
           label="Despesas"
@@ -59,6 +61,7 @@ import Income from "@/components/Income.vue";
 import AppHeader from "@/components/AppHeader.vue";
 import LinkButton from "@/components/LinkButton.vue";
 import ExpensesList from "@/components/ExpensesList.vue";
+import SearchFilter from "@/components/SearchFilter.vue";
 
 export default {
   name: "Home",
@@ -70,6 +73,7 @@ export default {
     AppHeader,
     LinkButton,
     ExpensesList,
+    SearchFilter,
   },
   async beforeRouteEnter(_to, _from, next) {
     try {
@@ -95,8 +99,9 @@ export default {
     };
   },
   created() {
-    this.fetch();
+    this.search(this.$route.query);
 
+    // TODO: create composable for debouncing and using it for searching
     function debounce(func, timeout = 300) {
       let timer;
       return (...args) => {
@@ -120,10 +125,23 @@ export default {
     };
   },
   watch: {
+    "$route.query": "search",
     "period.month": "fetch",
     "period.year": "fetch",
   },
   methods: {
+    search(query, previous) {
+      if (query && query.term) {
+        this.fetch({
+          description: query.term,
+          month: query.month,
+          year: query.year,
+        });
+      } else if (!previous || previous.term) {
+        // if had term, it was cleared, so fetch again
+        this.fetch();
+      }
+    },
     toggleButtons() {
       var st = window.pageYOffset || document.documentElement.scrollTop;
 
@@ -135,14 +153,21 @@ export default {
 
       this.lastScrollTop = st <= 0 ? 0 : st;
     },
-    async fetch() {
+    async fetch(filters) {
       try {
+        // TODO: create a composable for loading?
         this.$store.dispatch("loading");
-        this.debts = await axios.get("/expenses/debts");
+        let params = { month: this.period.month, year: this.period.year };
 
-        this.expenses = await axios.get(
-          `/expenses?month=${this.period.month}&year=${this.period.year}`
-        );
+        if (filters && filters.description) {
+          params = { ...filters };
+        }
+
+        this.expenses = await axios.get("/expenses", { params });
+
+        this.debts = await axios.get("/expenses/debts", {
+          params: { description: params.description },
+        });
       } catch (err) {
         this.debts = null;
         this.expenses = null;
@@ -152,6 +177,9 @@ export default {
     },
   },
   computed: {
+    searching() {
+      return !!this.$route.query.term;
+    },
     items() {
       if (this.type === "normal") {
         return this.expenses;
