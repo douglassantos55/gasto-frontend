@@ -53,13 +53,15 @@ instance.interceptors.response.use(
       return Promise.reject(error.response.data);
     }
 
-    swal({
-      icon: "error",
-      title: "Ocorreu um erro",
-      text: "Nao foi possivel realizar a operacao. Por favor, tente novamente",
-    });
+    if (error.response.status == 500) {
+      swal({
+        icon: "error",
+        title: "Ocorreu um erro",
+        text: "Nao foi possivel realizar a operacao. Por favor, tente novamente",
+      });
 
-    return Promise.reject();
+      return Promise.reject();
+    }
   }
 );
 
