@@ -55,6 +55,7 @@
 
 <script>
 import axios from "@/utils/axios";
+import debounce from "@/utils/debounce";
 import Tab from "@/components/Tab.vue";
 import Tabs from "@/components/Tabs.vue";
 import Income from "@/components/Income.vue";
@@ -62,6 +63,7 @@ import AppHeader from "@/components/AppHeader.vue";
 import LinkButton from "@/components/LinkButton.vue";
 import ExpensesList from "@/components/ExpensesList.vue";
 import SearchFilter from "@/components/SearchFilter.vue";
+import useSearch from "@/composables/useSearch";
 
 export default {
   name: "Home",
@@ -74,6 +76,10 @@ export default {
     LinkButton,
     ExpensesList,
     SearchFilter,
+  },
+  setup() {
+    const { query, searching } = useSearch();
+    return { query, searching };
   },
   async beforeRouteEnter(_to, _from, next) {
     try {
@@ -98,25 +104,11 @@ export default {
       hideButtons: false,
     };
   },
-  created() {
-    this.search(this.$route.query);
+  mounted() {
+    this.fetch();
 
-    // TODO: create composable for debouncing and using it for searching
-    function debounce(func, timeout = 300) {
-      let timer;
-      return (...args) => {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-          func.apply(this, args);
-        }, timeout);
-      };
-    }
-
-    window.addEventListener(
-      "scroll",
-      debounce(this.toggleButtons.bind(this), 50),
-      false
-    );
+    const onScroll = debounce(this.toggleButtons.bind(this), 50);
+    window.addEventListener("scroll", onScroll, false);
   },
   provide() {
     return {
@@ -125,23 +117,14 @@ export default {
     };
   },
   watch: {
-    "$route.query": "search",
+    query: {
+      handler: "fetch",
+      deep: true,
+    },
     "period.month": "fetch",
     "period.year": "fetch",
   },
   methods: {
-    search(query, previous) {
-      if (query && query.term) {
-        this.fetch({
-          description: query.term,
-          month: query.month,
-          year: query.year,
-        });
-      } else if (!previous || previous.term) {
-        // if had term, it was cleared, so fetch again
-        this.fetch();
-      }
-    },
     toggleButtons() {
       var st = window.pageYOffset || document.documentElement.scrollTop;
 
@@ -153,14 +136,13 @@ export default {
 
       this.lastScrollTop = st <= 0 ? 0 : st;
     },
-    async fetch(filters) {
+    async fetch() {
       try {
-        // TODO: create a composable for loading?
         this.$store.dispatch("loading");
         let params = { month: this.period.month, year: this.period.year };
 
-        if (filters && filters.description) {
-          params = { ...filters };
+        if (this.searching) {
+          params = { ...this.query };
         }
 
         this.expenses = await axios.get("/expenses", { params });
@@ -177,9 +159,6 @@ export default {
     },
   },
   computed: {
-    searching() {
-      return !!this.$route.query.term;
-    },
     items() {
       if (this.type === "normal") {
         return this.expenses;

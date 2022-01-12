@@ -14,8 +14,11 @@
 </template>
 
 <script>
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 import AppButton from "@/components/AppButton.vue";
 import AppDialog from "@/components/AppDialog.vue";
+import useSearch from "@/composables/useSearch";
 
 export default {
   name: "SearchDialog",
@@ -23,18 +26,21 @@ export default {
     AppButton,
     AppDialog,
   },
-  data() {
-    return {
-      term: "",
-    };
+  setup() {
+    const term = ref("");
+
+    const router = useRouter();
+    const { query } = useSearch();
+
+    function search() {
+      query.description = term;
+      router.back();
+    }
+
+    return { term, search };
   },
   mounted() {
     this.$refs.input.focus();
-  },
-  methods: {
-    search() {
-      this.$router.push({ name: "Home", query: { term: this.term } });
-    },
   },
 };
 </script>

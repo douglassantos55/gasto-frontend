@@ -4,24 +4,22 @@
     <input
       id="search-term"
       type="search"
-      @input="search"
-      :value="term"
-      name="term"
+      v-model="query.description"
       ref="input"
     />
 
     <div class="search__selects">
       <div>
         <label for="search-month">Mes</label>
-        <select id="search-month" @change="search" name="month" :value="month">
+        <select id="search-month" v-model="query.month">
           <option value="">Qualquer</option>
           <option v-for="i in 12" :key="i" :value="i">{{ months[i] }}</option>
         </select>
       </div>
 
       <div>
-        <label for="serch-year">Ano</label>
-        <select id="serch-year" @change="search" name="year" :value="year">
+        <label for="search-year">Ano</label>
+        <select id="search-year" v-model="query.year">
           <option value="">Qualquer</option>
           <option v-for="i in 5" :key="i" :value="curYear - (i - 1)">
             {{ curYear - (i - 1) }}
@@ -33,10 +31,13 @@
 </template>
 
 <script>
+import useSearch from "@/composables/useSearch";
+
 export default {
   name: "SearchFilter",
-  data() {
+  setup() {
     const curYear = new Date().getFullYear();
+
     const months = {
       1: "Janeiro",
       2: "Fevereiro",
@@ -51,28 +52,12 @@ export default {
       11: "Novembro",
       12: "Dezembro",
     };
-    return { curYear, months };
+
+    const { query, searching } = useSearch();
+    return { query, searching, curYear, months };
   },
   mounted() {
     this.$refs.input.focus();
-  },
-  methods: {
-    search(evt) {
-      this.$router.push({
-        query: { ...this.$route.query, [evt.target.name]: evt.target.value },
-      });
-    },
-  },
-  computed: {
-    term() {
-      return this.$route.query.term;
-    },
-    month() {
-      return this.$route.query.month;
-    },
-    year() {
-      return this.$route.query.year;
-    },
   },
 };
 </script>

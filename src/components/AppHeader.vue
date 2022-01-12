@@ -4,9 +4,9 @@
       <span class="icofont-search-2" />
     </link-button>
 
-    <link-button hollow circle :to="{ name: 'Home' }" v-else>
+    <app-button hollow circle @click="clearSearch" v-else>
       <span class="icofont-arrow-left" />
-    </link-button>
+    </app-button>
 
     <span className="logo"> Ga<i className="color-secondary">$</i>to </span>
 
@@ -56,12 +56,14 @@
 </template>
 
 <script>
-import { ref, watch } from "vue";
+import { useStore } from "vuex";
 import { useRoute } from "vue-router";
-import { useStore, mapState } from "vuex";
+import { ref, watch, computed } from "vue";
 
 import axios from "@/utils/axios";
 import useAlert from "@/composables/useAlert";
+import useSearch from "@/composables/useSearch";
+
 import AppButton from "@/components/AppButton.vue";
 import LinkButton from "@/components/LinkButton.vue";
 import UserPicture from "@/components/UserPicture.vue";
@@ -73,20 +75,14 @@ export default {
     LinkButton,
     UserPicture,
   },
-  computed: {
-    searching() {
-      return !!this.$route.query.term;
-    },
-    ...mapState(["user"]),
-  },
   setup() {
-    const store = useStore();
     const route = useRoute();
+    watch(route, () => (menuVisible.value = false));
+
+    const { clearSearch, searching } = useSearch();
 
     const menuVisible = ref(false);
     const { wait, success } = useAlert();
-
-    watch(route, () => (menuVisible.value = false));
 
     async function upload(evt) {
       menuVisible.value = false;
@@ -104,7 +100,10 @@ export default {
       success("Foto alterada com sucesso", "Sua foto foi alterada com sucesso");
     }
 
-    return { upload, menuVisible };
+    const store = useStore();
+    const user = computed(() => store.state.user);
+
+    return { user, clearSearch, upload, searching, menuVisible };
   },
 };
 </script>
