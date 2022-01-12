@@ -1,4 +1,4 @@
-.sway-title {
+.swal-title {
   color: #333;
   font-weight: bold;
 }
@@ -12,7 +12,16 @@
   @extend .btn;
   @extend .btn--rounded;
 
+  &:focus {
+    box-shadow: none;
+  }
+
   &--confirm {
-      @extend .btn--primary;
+    @extend .btn--primary;
+  }
+
+  &--cancel {
+    color: #333;
+    @extend .btn--hollow;
   }
 }

@@ -20,5 +20,16 @@ export default function () {
     });
   }
 
-  return { wait, error, success };
+  async function confirm(title, text, callback) {
+    const value = await sway({
+      icon: "info",
+      title,
+      text,
+      dangerMode: true,
+      buttons: ["Cancelar", "Confirmar"],
+    });
+    return value && callback();
+  }
+
+  return { wait, error, success, confirm };
 }

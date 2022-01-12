@@ -28,12 +28,14 @@
 </template>
 
 <script>
+import { ref } from "vue";
 import axios from "@/utils/axios";
 import User from "@/components/User.vue";
 import Loading from "@/components/Loading.vue";
 import AppButton from "@/components/AppButton.vue";
 import LinkButton from "@/components/LinkButton.vue";
 import AppDialog from "@/components/AppDialog.vue";
+import useAlert from "@/composables/useAlert";
 
 export default {
   name: "FriendsDialog",
@@ -44,23 +46,28 @@ export default {
     AppDialog,
     LinkButton,
   },
-  data() {
-    return {
-      friends: null,
-    };
-  },
-  async created() {
-    this.fetch();
-  },
-  methods: {
-    async fetch() {
-      this.friends = await axios.get("/friends");
-    },
-    async remove(id) {
-      await axios.delete(`/friends/${id}`);
-      this.friends = null;
-      this.fetch();
-    },
+  setup() {
+    const friends = ref(null);
+    const { confirm } = useAlert();
+
+    async function fetch() {
+      friends.value = await axios.get("/friends");
+    }
+
+    async function remove(id) {
+      confirm(
+        "Excluir amigo?",
+        "Esta acao nao podera ser desfeita",
+        async () => {
+          await axios.delete(`/friends/${id}`);
+          friends.value = null;
+          fetch();
+        }
+      );
+    }
+
+    fetch();
+    return { friends, fetch, remove };
   },
 };
 </script>

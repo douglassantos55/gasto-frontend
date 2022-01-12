@@ -2,7 +2,7 @@
   <router-view />
 
   <div class="loader" v-if="loading">
-    <loading />
+    <loading white />
   </div>
 </template>
 
@@ -31,6 +31,6 @@ export default {
   position: fixed;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.55);
 }
 </style>

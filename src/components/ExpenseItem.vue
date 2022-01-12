@@ -62,8 +62,9 @@
 <script>
 import { mapState } from "vuex";
 import axios from "@/utils/axios";
-import formatter from "@/utils/formatter";
 import User from "@/components/User.vue";
+import formatter from "@/utils/formatter";
+import useAlert from "@/composables/useAlert";
 import AppButton from "@/components/AppButton.vue";
 import LinkButton from "@/components/LinkButton.vue";
 
@@ -87,24 +88,36 @@ export default {
       loading: false,
     };
   },
+  setup() {
+    const { confirm } = useAlert();
+    return { confirm };
+  },
   methods: {
-    async remove() {
-      try {
-        this.loading = true;
-        await axios.delete(`/expenses/${this.expense.id}`);
-        this.refresh();
-      } catch (err) {
-        this.loading = false;
-      }
+    remove() {
+      this.confirm(
+        "Excluir despesa?",
+        "Esta acao nao podera ser desfeita",
+        async () => {
+          try {
+            this.loading = true;
+            await axios.delete(`/expenses/${this.expense.id}`);
+            this.refresh();
+          } catch (err) {
+            this.loading = false;
+          }
+        }
+      );
     },
-    async pay() {
-      try {
-        this.loading = true;
-        await axios.post(`/expenses/${this.expense.id}/payment`);
-        this.refresh();
-      } catch (err) {
-        this.loading = false;
-      }
+    pay() {
+      this.confirm("Realizar pagamento?", "", async () => {
+        try {
+          this.loading = true;
+          await axios.post(`/expenses/${this.expense.id}/payment`);
+          this.refresh();
+        } catch (err) {
+          this.loading = false;
+        }
+      });
     },
   },
   computed: {
