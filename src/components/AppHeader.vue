@@ -52,9 +52,12 @@
 </template>
 
 <script>
-import sway from "sweetalert";
-import { mapState } from "vuex";
+import { ref, watch } from "vue";
+import { useRoute } from "vue-router";
+import { useStore, mapState } from "vuex";
+
 import axios from "@/utils/axios";
+import useAlert from "@/composables/useAlert";
 import AppButton from "@/components/AppButton.vue";
 import LinkButton from "@/components/LinkButton.vue";
 import UserPicture from "@/components/UserPicture.vue";
@@ -66,44 +69,35 @@ export default {
     LinkButton,
     UserPicture,
   },
-  data() {
-    return {
-      menuVisible: false,
-    };
-  },
-  watch: {
-    $route: function () {
-      this.menuVisible = false;
-    },
-  },
   computed: {
     ...mapState(["user"]),
   },
-  methods: {
-    async upload(evt) {
-      this.menuVisible = false;
+  setup() {
+    const store = useStore();
+    const route = useRoute();
+
+    const menuVisible = ref(false);
+    const { wait, success } = useAlert();
+
+    watch(route, () => (menuVisible.value = false));
+
+    async function upload(evt) {
+      menuVisible.value = false;
       const formData = new FormData();
       formData.append("picture", evt.target.files[0]);
 
-      sway({
-        icon: "info",
-        title: "Alterando, por favor aguarde",
-        text: "Upload de arquivos demoram um pouco mesmo, fazer o que...",
-        buttons: false,
-        closeOnEsc: false,
-        closeOnClickOutside: false,
-      });
+      wait(
+        "Alterando, por favor aguarde",
+        "Upload de arquivos demoram um pouco mesmo, fazer o que..."
+      );
 
       const user = await axios.put("/users", formData);
 
-      this.$store.dispatch("setUser", user);
+      store.dispatch("setUser", user);
+      success("Foto alterada com sucesso", "Sua foto foi alterada com sucesso");
+    }
 
-      sway({
-        icon: "success",
-        title: "Foto alterada com sucesso",
-        text: "Sua foto foi alterada com sucesso",
-      });
-    },
+    return { upload, menuVisible };
   },
 };
 </script>

@@ -9,18 +9,41 @@
 </template>
 
 <script>
-import sway from "sweetalert";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import useAlert from "@/composables/useAlert";
 import axios, { authenticate, saveTokens } from "@/utils/axios";
 
 export default {
   name: "Login",
-  data() {
-    return {
-      data: {
-        email: "",
-        password: "",
-      },
-    };
+  setup() {
+    const router = useRouter();
+    const { error } = useAlert();
+
+    const data = ref({
+      email: "",
+      password: "",
+    });
+
+    async function login() {
+      try {
+        const { accessToken, refreshToken } = await axios.post(
+          "/auth/login",
+          data.value
+        );
+
+        saveTokens(accessToken, refreshToken);
+        authenticate();
+
+        router.push({ name: "Home" });
+      } catch (err) {
+        if (err) {
+          error("Erro de autenticacao", "Usuario ou senha invalidos");
+        }
+      }
+    }
+
+    return { data, login };
   },
   async beforeRouteEnter(_to, _from, next) {
     try {
@@ -29,27 +52,6 @@ export default {
     } catch (err) {
       next((vm) => vm.$store.dispatch("stopLoading"));
     }
-  },
-  methods: {
-    async login() {
-      try {
-        const { accessToken, refreshToken } = await axios.post(
-          "/auth/login",
-          this.data
-        );
-        saveTokens(accessToken, refreshToken);
-        authenticate();
-        this.$router.push({ name: "Home" });
-      } catch (err) {
-        if (err) {
-          sway({
-            icon: "error",
-            title: "Erro de autenticacao",
-            text: "Usuario ou senha invalidos",
-          });
-        }
-      }
-    },
   },
 };
 </script>
