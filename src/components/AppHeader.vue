@@ -8,7 +8,7 @@
       <span class="icofont-arrow-left" />
     </app-button>
 
-    <span className="logo"> Ga<i className="color-secondary">$</i>to </span>
+    <span className="logo">Ga<i className="color-secondary">$</i>to</span>
 
     <app-button
       class="no-shadow"

@@ -1,51 +1,55 @@
 <template>
   <form @submit.prevent="submit(save)">
     <app-dialog :title="title">
-      <template v-if="type === 'emprestimo' && !expense.friend_id">
-        <p>Empréstimo para</p>
+      <loading v-if="id && !expense.id" />
 
-        <loading v-if="!friends" />
+      <template v-else>
+        <template v-if="type === 'emprestimo' && !expense.friend_id">
+          <p>Empréstimo para</p>
 
-        <div
-          class="friend"
-          v-for="friend in friends"
-          :key="friend.id"
-          v-else-if="friends.length > 0"
-        >
-          <user :user="friend" @click="selectedFriend = friend" />
-        </div>
+          <loading v-if="!friends" />
 
-        <p v-else>Você não possui nenhum amigo</p>
-      </template>
+          <div
+            class="friend"
+            v-for="friend in friends"
+            :key="friend.id"
+            v-else-if="friends.length > 0"
+          >
+            <user :user="friend" @click="selectedFriend = friend" />
+          </div>
 
-      <template v-if="type === 'normal' || expense.friend_id">
-        <div class="selected-friend" v-if="selectedFriend">
-          <user :user="selectedFriend" />
+          <p v-else>Você não possui nenhum amigo</p>
+        </template>
 
-          <app-button small rounded @click="selectedFriend = null">
-            Alterar
-          </app-button>
-        </div>
+        <template v-if="type === 'normal' || expense.friend_id">
+          <div class="selected-friend" v-if="selectedFriend">
+            <user :user="selectedFriend" />
 
-        <form-group :errors="errors.date">
-          <label for="expense-date">Data</label>
-          <input type="date" id="expense-date" v-model="expense.date" />
-        </form-group>
+            <app-button small rounded @click="selectedFriend = null">
+              Alterar
+            </app-button>
+          </div>
 
-        <form-group :errors="errors.description">
-          <label for="expense-description">Descrição</label>
-          <input
-            type="text"
-            id="expense-description"
-            v-model="expense.description"
-            ref="descInput"
-          />
-        </form-group>
+          <form-group :errors="errors.date">
+            <label for="expense-date">Data</label>
+            <input type="date" id="expense-date" v-model="expense.date" />
+          </form-group>
 
-        <form-group :errors="errors.total">
-          <label for="expense-total">Valor</label>
-          <money-input id="expense-total" v-model="expense.total" />
-        </form-group>
+          <form-group :errors="errors.description">
+            <label for="expense-description">Descrição</label>
+            <input
+              type="text"
+              id="expense-description"
+              v-model="expense.description"
+              ref="descInput"
+            />
+          </form-group>
+
+          <form-group :errors="errors.total">
+            <label for="expense-total">Valor</label>
+            <money-input id="expense-total" v-model="expense.total" />
+          </form-group>
+        </template>
       </template>
 
       <template v-slot:actions v-if="type === 'normal' || expense.friend_id">
@@ -58,7 +62,6 @@
 </template>
 
 <script>
-import store from "@/store";
 import axios from "@/utils/axios";
 import useForm from "@/composables/useForm";
 
@@ -77,14 +80,9 @@ export default {
       type: String,
       default: "normal",
     },
-    initial: {
-      type: Object,
-      default: (props) => ({
-        description: "",
-        total: null,
-        type: props.type,
-        date: new Date().toISOString().slice(0, 10),
-      }),
+    id: {
+      type: String,
+      required: false,
     },
   },
   setup() {
@@ -101,32 +99,23 @@ export default {
   data() {
     return {
       friends: null,
-      expense: { ...this.initial },
-      selectedFriend: this.initial.friend,
+      selectedFriend: null,
+      expense: {
+        description: "",
+        total: null,
+        type: this.type,
+        date: new Date().toISOString().slice(0, 10),
+      },
     };
-  },
-  async beforeRouteEnter(to) {
-    try {
-      if (to.params.id) {
-        store.dispatch("loading");
-        const data = await axios.get(`/expenses/${to.params.id}`);
-
-        to.params.initial = {};
-        Object.keys(data).forEach((key) => {
-          const value = data[key];
-
-          if (value) {
-            to.params.initial[key] = value;
-          }
-        });
-      }
-    } finally {
-      store.dispatch("stopLoading");
-    }
   },
   async created() {
     if (this.type === "emprestimo") {
       this.friends = await axios.get("/friends");
+    }
+
+    if (this.id) {
+      this.expense = await axios.get(`/expenses/${this.id}`);
+      this.selectedFriend = this.expense.friend;
     }
   },
   mounted() {
