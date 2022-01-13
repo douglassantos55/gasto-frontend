@@ -24,4 +24,8 @@
     color: #333;
     @extend .btn--hollow;
   }
+
+  &--danger {
+    @extend .btn--danger;
+  }
 }
