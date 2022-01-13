@@ -11,17 +11,18 @@
     <span className="logo">Ga<i className="color-secondary">$</i>to</span>
 
     <app-button
-      class="no-shadow"
       circle
-      @click="menuVisible = !menuVisible"
       v-if="user"
+      class="no-shadow"
+      @click="menuVisible = !menuVisible"
     >
       <user-picture :picture="user.picture" :size="42" />
     </app-button>
 
     <div
-      class="menu user-menu menu--caret-top menu--caret-right"
       v-if="menuVisible"
+      v-click-outside="outside"
+      class="menu user-menu menu--caret-top menu--caret-right"
     >
       <link-button
         type="button"
@@ -64,6 +65,7 @@
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import { ref, watch, computed } from "vue";
+import vClickOutside from "click-outside-vue3";
 
 import axios from "@/utils/axios";
 import useAlert from "@/composables/useAlert";
@@ -75,10 +77,18 @@ import UserPicture from "@/components/UserPicture.vue";
 
 export default {
   name: "AppHeader",
+  directives: {
+    clickOutside: vClickOutside.directive,
+  },
   components: {
     AppButton,
     LinkButton,
     UserPicture,
+  },
+  methods: {
+    outside() {
+      this.menuVisible = false;
+    },
   },
   setup() {
     const route = useRoute();
