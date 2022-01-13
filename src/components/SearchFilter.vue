@@ -1,16 +1,16 @@
 <template>
   <div class="search">
-    <label for="search-term">Filtro</label>
+    <label for="search-term">Descrição</label>
     <input
       id="search-term"
       type="search"
-      v-model="query.description"
+      v-model.lazy="query.description"
       ref="input"
     />
 
     <div class="search__selects">
       <div>
-        <label for="search-month">Mes</label>
+        <label for="search-month">Mês</label>
         <select id="search-month" v-model="query.month">
           <option value="">Qualquer</option>
           <option v-for="i in 12" :key="i" :value="i">{{ months[i] }}</option>

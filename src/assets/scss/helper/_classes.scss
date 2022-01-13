@@ -5,3 +5,7 @@
 .hidden {
   transform: translateX(-200%);
 }
+
+.no-shadow {
+  box-shadow: none!important;
+}

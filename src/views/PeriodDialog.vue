@@ -1,7 +1,7 @@
 <template>
   <app-dialog title="Alterar período" cancel="Ok">
     <div class="form-group">
-      <label for="period-month">Mes</label>
+      <label for="period-month">Mês</label>
       <select id="period-month" v-model="period.month">
         <option v-for="i in 12" :key="i" :value="i">{{ months[i] }}</option>
       </select>
