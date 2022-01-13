@@ -114,8 +114,19 @@ export default {
     }
 
     if (this.id) {
-      this.expense = await axios.get(`/expenses/${this.id}`);
-      this.selectedFriend = this.expense.friend;
+      const expense = await axios.get(`/expenses/${this.id}`);
+
+      Object.keys(expense).forEach((key) => {
+        const value = expense[key];
+
+        if (value) {
+          this.expense[key] = value;
+        }
+      });
+
+      if (this.expense.friend) {
+        this.selectedFriend = this.expense.friend;
+      }
     }
   },
   mounted() {
@@ -125,6 +136,7 @@ export default {
   },
   watch: {
     selectedFriend(friend) {
+      console.log(friend);
       if (friend) {
         this.expense.friend_id = friend.id;
       } else {
