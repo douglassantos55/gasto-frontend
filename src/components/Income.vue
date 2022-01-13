@@ -36,14 +36,14 @@
       </div>
 
       <div class="income__total">
-        <span class="income__label">Emprestimos</span>
+        <span class="income__label">Empréstimos</span>
         <span class="income__value income__value--warning">
           {{ formatter.currency(totalLoans) }}
         </span>
       </div>
 
       <div class="income__total">
-        <span class="income__label">Balanco</span>
+        <span class="income__label">Balanço</span>
         <span class="income__value income__value--success">
           {{ formatter.currency(balance) }}
         </span>

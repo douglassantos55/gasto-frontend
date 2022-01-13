@@ -17,7 +17,7 @@
       </div>
     </div>
 
-    <p v-else>Voce nao possui nenhum amigo</p>
+    <p v-else>Você não possui nenhum amigo</p>
 
     <template v-slot:actions>
       <link-button :to="{ name: 'FriendDialog' }" rounded primary>
@@ -57,7 +57,7 @@ export default {
     async function remove(id) {
       confirm(
         "Excluir amigo?",
-        "Esta acao nao podera ser desfeita",
+        "Esta ação não poderá ser desfeita",
         async () => {
           await axios.delete(`/friends/${id}`);
           friends.value = null;

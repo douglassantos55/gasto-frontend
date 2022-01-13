@@ -41,7 +41,7 @@ export default {
     const months = {
       1: "Janeiro",
       2: "Fevereiro",
-      3: "Marco",
+      3: "Março",
       4: "Abril",
       5: "Maio",
       6: "Junho",

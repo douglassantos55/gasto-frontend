@@ -14,7 +14,7 @@
           @click="this.type = 'normal'"
         />
         <tab
-          label="Emprestimos"
+          label="Empréstimos"
           :activated="this.type === 'emprestimo'"
           @click="this.type = 'emprestimo'"
         />
@@ -24,7 +24,7 @@
     </template>
 
     <h3 class="text-center" v-else>
-      Defina o valor para o periodo antes de cadastrar as despesas
+      Defina o valor para o período antes de cadastrar as despesas
     </h3>
 
     <link-button

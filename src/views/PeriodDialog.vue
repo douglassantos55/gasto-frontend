@@ -1,5 +1,5 @@
 <template>
-  <app-dialog title="Alterar periodo" cancel="Ok">
+  <app-dialog title="Alterar período" cancel="Ok">
     <div class="form-group">
       <label for="period-month">Mes</label>
       <select id="period-month" v-model="period.month">
@@ -32,7 +32,7 @@ export default {
     const months = {
       1: "Janeiro",
       2: "Fevereiro",
-      3: "Marco",
+      3: "Março",
       4: "Abril",
       5: "Maio",
       6: "Junho",

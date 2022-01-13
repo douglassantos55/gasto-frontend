@@ -2,7 +2,7 @@
   <form @submit.prevent="search">
     <app-dialog title="Procure uma despesa">
       <div class="form-group">
-        <label for="search-term">Descricao</label>
+        <label for="search-term">Descrição</label>
         <input type="text" v-model="term" id="search-term" ref="input" />
       </div>
 

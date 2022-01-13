@@ -2,7 +2,7 @@
   <form @submit.prevent="submit(save)">
     <app-dialog :title="title">
       <template v-if="type === 'emprestimo' && !expense.friend_id">
-        <p>Emprestimo para</p>
+        <p>Empréstimo para</p>
 
         <loading v-if="!friends" />
 
@@ -15,7 +15,7 @@
           <user :user="friend" @click="selectedFriend = friend" />
         </div>
 
-        <p v-else>Voce nao possui nenhum amigo</p>
+        <p v-else>Você não possui nenhum amigo</p>
       </template>
 
       <template v-if="type === 'normal' || expense.friend_id">
@@ -33,7 +33,7 @@
         </form-group>
 
         <form-group :errors="errors.description">
-          <label for="expense-description">Descricao</label>
+          <label for="expense-description">Descrição</label>
           <input
             type="text"
             id="expense-description"
@@ -157,7 +157,7 @@ export default {
   },
   computed: {
     title() {
-      return this.type === "normal" ? "Despesa" : "Emprestimo";
+      return this.type === "normal" ? "Despesa" : "Empréstimo";
     },
   },
 };

@@ -96,7 +96,7 @@ export default {
     remove() {
       this.confirm(
         "Excluir despesa?",
-        "Esta acao nao podera ser desfeita",
+        "Esta ação não poderá ser desfeita",
         async () => {
           try {
             this.loading = true;
