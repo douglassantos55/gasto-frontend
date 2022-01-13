@@ -11,20 +11,12 @@
     <div class="search__selects">
       <div>
         <label for="search-month">Mês</label>
-        <select id="search-month" v-model="query.month">
-          <option value="">Qualquer</option>
-          <option v-for="i in 12" :key="i" :value="i">{{ months[i] }}</option>
-        </select>
+        <month-select id="search-month" v-model="query.month" placeholder="Qualquer" />
       </div>
 
       <div>
         <label for="search-year">Ano</label>
-        <select id="search-year" v-model="query.year">
-          <option value="">Qualquer</option>
-          <option v-for="i in 5" :key="i" :value="curYear - (i - 1)">
-            {{ curYear - (i - 1) }}
-          </option>
-        </select>
+        <year-select id="search-year" v-model="query.year" placeholder="Qualquer" />
       </div>
     </div>
   </div>
@@ -32,29 +24,18 @@
 
 <script>
 import useSearch from "@/composables/useSearch";
+import YearSelect from "@/components/YearSelect.vue";
+import MonthSelect from "@/components/MonthSelect.vue";
 
 export default {
   name: "SearchFilter",
+  components: {
+      YearSelect,
+      MonthSelect,
+  },
   setup() {
-    const curYear = new Date().getFullYear();
-
-    const months = {
-      1: "Janeiro",
-      2: "Fevereiro",
-      3: "Março",
-      4: "Abril",
-      5: "Maio",
-      6: "Junho",
-      7: "Julho",
-      8: "Agosto",
-      9: "Setembro",
-      10: "Outubro",
-      11: "Novembro",
-      12: "Dezembro",
-    };
-
     const { query, searching } = useSearch();
-    return { query, searching, curYear, months };
+    return { query, searching };
   },
   mounted() {
     this.$refs.input.focus();
