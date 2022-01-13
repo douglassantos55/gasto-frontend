@@ -9,6 +9,7 @@ export default function () {
     sway({ icon: "error", title, text });
   }
 
+  // TODO: use loader instead
   function wait(title, text) {
     sway({
       icon: "info",

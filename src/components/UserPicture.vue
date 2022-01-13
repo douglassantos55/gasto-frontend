@@ -17,6 +17,9 @@ export default {
   },
   computed: {
     imageSrc() {
+      if (!this.picture) {
+        return "./img/user.jpg";
+      }
       return process.env.VUE_APP_STATIC_URL + this.picture;
     },
   },

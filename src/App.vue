@@ -7,16 +7,17 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
 import Loading from "@/components/Loading.vue";
+import useLoader from "@/composables/useLoader";
 
 export default {
   name: "App",
   components: {
     Loading,
   },
-  computed: {
-    ...mapState(["loading"]),
+  setup() {
+    const { loading } = useLoader();
+    return { loading };
   },
 };
 </script>

@@ -64,6 +64,7 @@ import LinkButton from "@/components/LinkButton.vue";
 import ExpensesList from "@/components/ExpensesList.vue";
 import SearchFilter from "@/components/SearchFilter.vue";
 import useSearch from "@/composables/useSearch";
+import useLoader from "@/composables/useLoader";
 
 export default {
   name: "Home",
@@ -78,8 +79,10 @@ export default {
     SearchFilter,
   },
   setup() {
+    const { wait } = useLoader();
     const { query, searching } = useSearch();
-    return { query, searching };
+
+    return { wait, query, searching };
   },
   async beforeRouteEnter(_to, _from, next) {
     try {
@@ -136,26 +139,25 @@ export default {
 
       this.lastScrollTop = st <= 0 ? 0 : st;
     },
-    async fetch() {
-      try {
-        this.$store.dispatch("loading");
-        let params = { month: this.period.month, year: this.period.year };
+    fetch() {
+      this.wait(async () => {
+        try {
+          let params = { month: this.period.month, year: this.period.year };
 
-        if (this.searching) {
-          params = { ...this.query };
+          if (this.searching) {
+            params = { ...this.query };
+          }
+
+          this.expenses = await axios.get("/expenses", { params });
+
+          this.debts = await axios.get("/expenses/debts", {
+            params: { description: params.description },
+          });
+        } catch (err) {
+          this.debts = null;
+          this.expenses = null;
         }
-
-        this.expenses = await axios.get("/expenses", { params });
-
-        this.debts = await axios.get("/expenses/debts", {
-          params: { description: params.description },
-        });
-      } catch (err) {
-        this.debts = null;
-        this.expenses = null;
-      } finally {
-        this.$store.dispatch("stopLoading");
-      }
+      });
     },
   },
   computed: {

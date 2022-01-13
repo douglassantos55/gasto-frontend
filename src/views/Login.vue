@@ -86,7 +86,7 @@ export default {
       await axios.head("/auth/user");
       next({ name: "Home" });
     } catch (err) {
-      next((vm) => vm.$store.dispatch("stopLoading"));
+      next();
     }
   },
 };
