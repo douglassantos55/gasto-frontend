@@ -13,6 +13,10 @@ header {
     font-size: 44px;
     line-height: 100%;
     font-family: "Lilita One", cursive;
+
+    &--center {
+      margin: auto;
+    }
   }
 
   .user__image {

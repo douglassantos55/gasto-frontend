@@ -10,7 +10,12 @@
 
     <span className="logo"> Ga<i className="color-secondary">$</i>to </span>
 
-    <app-button class="no-shadow" circle @click="menuVisible = !menuVisible" v-if="user">
+    <app-button
+      class="no-shadow"
+      circle
+      @click="menuVisible = !menuVisible"
+      v-if="user"
+    >
       <user-picture :picture="user.picture" :size="42" />
     </app-button>
 

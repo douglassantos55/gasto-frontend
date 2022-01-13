@@ -11,12 +11,20 @@
     <div class="search__selects">
       <div>
         <label for="search-month">Mês</label>
-        <month-select id="search-month" v-model="query.month" placeholder="Qualquer" />
+        <month-select
+          id="search-month"
+          v-model="query.month"
+          placeholder="Qualquer"
+        />
       </div>
 
       <div>
         <label for="search-year">Ano</label>
-        <year-select id="search-year" v-model="query.year" placeholder="Qualquer" />
+        <year-select
+          id="search-year"
+          v-model="query.year"
+          placeholder="Qualquer"
+        />
       </div>
     </div>
   </div>
@@ -30,8 +38,8 @@ import MonthSelect from "@/components/MonthSelect.vue";
 export default {
   name: "SearchFilter",
   components: {
-      YearSelect,
-      MonthSelect,
+    YearSelect,
+    MonthSelect,
   },
   setup() {
     const { query, searching } = useSearch();
