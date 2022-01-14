@@ -1,42 +1,38 @@
 <template>
-  <header>
-    <span className="logo logo--center">
-      Ga<i className="color-secondary">$</i>to
-    </span>
-  </header>
+  <h1 class="title">Acesse sua conta</h1>
 
-  <main>
-    <h1 class="title">Acesse sua conta</h1>
+  <form @submit.prevent="submit(login)">
+    <form-group>
+      <label for="login-email">E-mail</label>
+      <input
+        id="login-email"
+        type="email"
+        v-model="data.email"
+        autofocus
+        required
+      />
+    </form-group>
 
-    <form @submit.prevent="submit(login)">
-      <form-group>
-        <label for="login-email">E-mail</label>
-        <input
-          id="login-email"
-          type="email"
-          v-model="data.email"
-          autofocus
-          required
-        />
-      </form-group>
+    <form-group>
+      <label for="login-password">Senha</label>
+      <input
+        id="login-password"
+        type="password"
+        v-model="data.password"
+        required
+      />
+    </form-group>
 
-      <form-group>
-        <label for="login-password">Senha</label>
-        <input
-          id="login-password"
-          type="password"
-          v-model="data.password"
-          required
-        />
-      </form-group>
+    <div class="action">
+      <link-button :to="{ name: 'Register' }" hollow>
+        Criar uma conta
+      </link-button>
 
-      <div class="action">
-        <app-button primary rounded type="submit" :disabled="loading"
-          >Entrar</app-button
-        >
-      </div>
-    </form>
-  </main>
+      <app-button primary rounded type="submit" :disabled="loading">
+        Entrar
+      </app-button>
+    </div>
+  </form>
 </template>
 
 <script>
@@ -45,6 +41,7 @@ import { useRouter } from "vue-router";
 import useForm from "@/composables/useForm";
 import useAlert from "@/composables/useAlert";
 import AppButton from "@/components/AppButton.vue";
+import LinkButton from "@/components/LinkButton.vue";
 import FormGroup from "@/components/FormGroup.vue";
 import axios, { authenticate, saveTokens } from "@/utils/axios";
 
@@ -53,6 +50,7 @@ export default {
   components: {
     AppButton,
     FormGroup,
+    LinkButton,
   },
   setup() {
     const router = useRouter();
@@ -80,14 +78,6 @@ export default {
     }
 
     return { data, login, submit, loading };
-  },
-  async beforeRouteEnter(_to, _from, next) {
-    try {
-      await axios.head("/auth/user");
-      next({ name: "Home" });
-    } catch (err) {
-      next();
-    }
   },
 };
 </script>

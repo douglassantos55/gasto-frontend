@@ -3,10 +3,23 @@ import Home from "../views/Home.vue";
 
 const routes = [
   {
-    path: "/login",
-    name: "Login",
-    component: () =>
-      import(/* webpackChunkName: "login" */ "../views/Login.vue"),
+    path: "/auth",
+    name: "Auth",
+    component: () => import(/* webpackChunkName: "auth" */ "../views/Auth.vue"),
+    children: [
+      {
+        path: "login",
+        name: "Login",
+        component: () =>
+          import(/* webpackChunkName: "login" */ "../views/Login.vue"),
+      },
+      {
+        path: "register",
+        name: "Register",
+        component: () =>
+          import(/* webpackChunkName: "register" */ "../views/Register.vue"),
+      },
+    ],
   },
   {
     props: true,

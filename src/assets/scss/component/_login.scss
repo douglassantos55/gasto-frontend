@@ -16,8 +16,11 @@
 }
 
 .action {
+  display: flex;
   margin-top: 15px;
   text-align: right;
+  align-items: center;
+  justify-content: space-between;
 }
 
 #new-user {
